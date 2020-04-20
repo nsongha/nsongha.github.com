@@ -11,6 +11,7 @@ body {
   background-color: #1abc9c;
   height: 150px;
   line-height: 150px;
+  padding: 0 10% 0 10%;
 }
 
 #header a {
@@ -50,7 +51,7 @@ body {
 
 #footer {
   background-color: #2f2f2f;
-  padding: 50px 0;
+  padding: 50px 10% 20px 10%;
 }
 
 #footer h4 {
@@ -61,6 +62,7 @@ body {
 
 #footer p {
   color: #fff;
+
 }
 
 a {
