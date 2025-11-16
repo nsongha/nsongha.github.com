@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text to Speech App</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #ffffff;
+        }
+
+        .top-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+            padding: 15px 20px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            z-index: 1000;
+            flex-wrap: wrap;
+        }
+
+        .control-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        label {
+            font-weight: 500;
+            color: #495057;
+        }
+
+        input[type="number"],
+        select {
+            padding: 8px 12px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 14px;
+            background-color: white;
+        }
+
+        button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #545b62;
+        }
+
+        .playback-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-left: auto;
+        }
+
+        .seek-bar {
+            width: 200px;
+        }
+
+        .duration {
+            font-size: 14px;
+            color: #495057;
+            min-width: 100px;
+        }
+
+        .content-area {
+            margin-top: 100px;
+            padding: 20px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .text-input {
+            width: 100%;
+            min-height: 200px;
+            padding: 15px;
+            border: 2px solid #dee2e6;
+            border-radius: 4px;
+            font-size: 16px;
+            font-family: inherit;
+            resize: vertical;
+            margin-bottom: 20px;
+        }
+
+        .text-input:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+
+        .paragraphs-container {
+            margin-top: 20px;
+        }
+
+        .paragraph-wrapper {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 15px;
+            padding: 10px 0;
+            transition: background-color 0.2s;
+        }
+
+        .paragraph-wrapper:hover {
+            background-color: #f8f9fa;
+        }
+
+        .left-controls {
+            width: 120px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .paragraph-wrapper:hover .left-controls,
+        .paragraph-wrapper:hover .right-controls {
+            opacity: 1;
+        }
+
+        .paragraph-text {
+            flex: 1;
+            padding: 15px;
+            background-color: white;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            line-height: 1.6;
+            min-height: 60px;
+        }
+
+        .paragraph-text.generating {
+            background-color: #fff3cd;
+            border-color: #ffc107;
+        }
+
+        .paragraph-text.ready {
+            background-color: #d4edda;
+            border-color: #28a745;
+        }
+
+        .right-controls {
+            width: 150px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 13px;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #218838;
+        }
+
+        .btn-info {
+            background-color: #17a2b8;
+            color: white;
+        }
+
+        .btn-info:hover {
+            background-color: #138496;
+        }
+
+        .btn-warning {
+            background-color: #ffc107;
+            color: #212529;
+        }
+
+        .btn-warning:hover {
+            background-color: #e0a800;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6c757d;
+        }
+
+        .empty-state h2 {
+            margin-bottom: 10px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 3px;
+            background-color: #007bff;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            transform-origin: left;
+            transform: scaleX(0);
+            transition: transform 0.1s linear;
+        }
+
+        .paragraph-text {
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <div class="control-group">
+            <label for="rate">Tốc độ:</label>
+            <input type="number" id="rate" min="0.1" max="2" step="0.1" value="1">
+        </div>
+
+        <div class="control-group">
+            <label for="pitch">Cao độ:</label>
+            <input type="number" id="pitch" min="0" max="2" step="0.1" value="1">
+        </div>
+
+        <div class="control-group">
+            <label for="voice">Giọng đọc:</label>
+            <select id="voice"></select>
+        </div>
+
+        <button class="btn-primary" onclick="generateAll()">Generate All</button>
+        <button class="btn-secondary" onclick="regenerateAll()">Regenerate All</button>
+
+        <div class="playback-controls">
+            <button class="btn-info" onclick="playAll()" id="playAllBtn">▶ Play All</button>
+            <button class="btn-warning" onclick="pauseAll()" id="pauseAllBtn">⏸ Pause</button>
+            <button class="btn-danger" onclick="stopAll()">⏹ Stop</button>
+            <input type="range" class="seek-bar" id="seekBar" min="0" max="100" value="0">
+            <span class="duration" id="duration">0:00 / 0:00</span>
+        </div>
+    </div>
+
+    <div class="content-area">
+        <textarea
+            class="text-input"
+            id="textInput"
+            placeholder="Dán văn bản vào đây và chia thành các đoạn bằng cách xuống dòng..."
+            oninput="parseText()"></textarea>
+
+        <div id="paragraphsContainer" class="paragraphs-container"></div>
+    </div>
+
+    <script>
+        let paragraphs = [];
+        let voices = [];
+        let currentPlayingIndex = -1;
+        let currentUtterance = null;
+        let isPaused = false;
+        let totalDuration = 0;
+        let currentTime = 0;
+        let playbackTimer = null;
+
+        // Initialize voices
+        function loadVoices() {
+            voices = speechSynthesis.getVoices();
+            const voiceSelect = document.getElementById('voice');
+            voiceSelect.innerHTML = '';
+
+            // Prioritize Vietnamese voices
+            const viVoices = voices.filter(v => v.lang.startsWith('vi'));
+            const otherVoices = voices.filter(v => !v.lang.startsWith('vi'));
+
+            [...viVoices, ...otherVoices].forEach((voice, index) => {
+                const option = document.createElement('option');
+                option.value = index;
+                option.textContent = `${voice.name} (${voice.lang})`;
+                voiceSelect.appendChild(option);
+            });
+        }
+
+        speechSynthesis.onvoiceschanged = loadVoices;
+        loadVoices();
+
+        function parseText() {
+            const text = document.getElementById('textInput').value;
+            const lines = text.split('\n').filter(line => line.trim() !== '');
+
+            paragraphs = lines.map((line, index) => ({
+                id: index,
+                text: line.trim(),
+                audio: null,
+                generated: false
+            }));
+
+            renderParagraphs();
+        }
+
+        function renderParagraphs() {
+            const container = document.getElementById('paragraphsContainer');
+
+            if (paragraphs.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <h2>Chưa có nội dung</h2>
+                        <p>Hãy dán văn bản vào ô trên và chia thành các đoạn</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = paragraphs.map((para, index) => `
+                <div class="paragraph-wrapper">
+                    <div class="left-controls">
+                        <button class="btn-success btn-small" onclick="generateParagraph(${index})">
+                            ${para.generated ? '🔄 Regenerate' : '▶ Generate'}
+                        </button>
+                    </div>
+                    <div class="paragraph-text ${para.generated ? 'ready' : ''}" id="para-${index}">
+                        ${para.text}
+                        <div class="progress-bar" id="progress-${index}"></div>
+                    </div>
+                    <div class="right-controls">
+                        <button class="btn-info btn-small" onclick="playParagraph(${index})" ${!para.generated ? 'disabled' : ''}>
+                            ▶ Play
+                        </button>
+                        <button class="btn-warning btn-small" onclick="pauseParagraph(${index})" ${!para.generated ? 'disabled' : ''}>
+                            ⏸ Pause
+                        </button>
+                        <button class="btn-secondary btn-small" onclick="exportParagraph(${index})" ${!para.generated ? 'disabled' : ''}>
+                            💾 Export
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function getVoice() {
+            const voiceIndex = document.getElementById('voice').value;
+            return voices[voiceIndex];
+        }
+
+        function generateParagraph(index) {
+            const para = paragraphs[index];
+            const utterance = new SpeechSynthesisUtterance(para.text);
+
+            utterance.voice = getVoice();
+            utterance.rate = parseFloat(document.getElementById('rate').value);
+            utterance.pitch = parseFloat(document.getElementById('pitch').value);
+
+            const paraElement = document.getElementById(`para-${index}`);
+            paraElement.classList.add('generating');
+            paraElement.classList.remove('ready');
+
+            utterance.onend = () => {
+                para.generated = true;
+                para.audio = utterance;
+                paraElement.classList.remove('generating');
+                paraElement.classList.add('ready');
+                renderParagraphs();
+            };
+
+            para.audio = utterance;
+            para.generated = true;
+
+            setTimeout(() => {
+                paraElement.classList.remove('generating');
+                paraElement.classList.add('ready');
+                renderParagraphs();
+            }, 500);
+        }
+
+        function playParagraph(index) {
+            stopAll();
+            const para = paragraphs[index];
+            if (para.audio && para.generated) {
+                currentPlayingIndex = index;
+                speechSynthesis.speak(para.audio);
+                updateProgress(index);
+            }
+        }
+
+        function pauseParagraph(index) {
+            if (speechSynthesis.speaking) {
+                speechSynthesis.pause();
+                isPaused = true;
+            }
+        }
+
+        function exportParagraph(index) {
+            const para = paragraphs[index];
+            if (!para.generated) return;
+
+            // Create a simple text file with instructions
+            const content = `Text-to-Speech Export
+Text: ${para.text}
+
+Settings:
+- Voice: ${getVoice()?.name || 'Default'}
+- Rate: ${document.getElementById('rate').value}
+- Pitch: ${document.getElementById('pitch').value}
+
+Note: This is a text export. To get actual audio, use your browser's built-in screen recording or audio capture feature while playing the audio.`;
+
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `paragraph-${index + 1}.txt`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function generateAll() {
+            paragraphs.forEach((_, index) => {
+                generateParagraph(index);
+            });
+        }
+
+        function regenerateAll() {
+            paragraphs.forEach(para => {
+                para.generated = false;
+                para.audio = null;
+            });
+            renderParagraphs();
+            generateAll();
+        }
+
+        function playAll() {
+            if (isPaused) {
+                speechSynthesis.resume();
+                isPaused = false;
+                return;
+            }
+
+            stopAll();
+            playNextParagraph(0);
+        }
+
+        function playNextParagraph(index) {
+            if (index >= paragraphs.length) {
+                stopAll();
+                return;
+            }
+
+            const para = paragraphs[index];
+            if (!para.generated) {
+                playNextParagraph(index + 1);
+                return;
+            }
+
+            currentPlayingIndex = index;
+            const utterance = new SpeechSynthesisUtterance(para.text);
+            utterance.voice = getVoice();
+            utterance.rate = parseFloat(document.getElementById('rate').value);
+            utterance.pitch = parseFloat(document.getElementById('pitch').value);
+
+            utterance.onend = () => {
+                playNextParagraph(index + 1);
+            };
+
+            currentUtterance = utterance;
+            speechSynthesis.speak(utterance);
+            updateProgress(index);
+        }
+
+        function pauseAll() {
+            if (speechSynthesis.speaking) {
+                speechSynthesis.pause();
+                isPaused = true;
+            }
+        }
+
+        function stopAll() {
+            speechSynthesis.cancel();
+            currentPlayingIndex = -1;
+            currentUtterance = null;
+            isPaused = false;
+            if (playbackTimer) {
+                clearInterval(playbackTimer);
+            }
+            updateDuration(0, 0);
+        }
+
+        function updateProgress(index) {
+            const progressBar = document.getElementById(`progress-${index}`);
+            if (!progressBar) return;
+
+            let startTime = Date.now();
+            const interval = setInterval(() => {
+                if (!speechSynthesis.speaking || currentPlayingIndex !== index) {
+                    progressBar.style.transform = 'scaleX(0)';
+                    clearInterval(interval);
+                    return;
+                }
+
+                const elapsed = (Date.now() - startTime) / 1000;
+                const estimated = paragraphs[index].text.split(' ').length / 2; // rough estimate
+                const progress = Math.min(elapsed / estimated, 1);
+                progressBar.style.transform = `scaleX(${progress})`;
+            }, 100);
+        }
+
+        function updateDuration(current, total) {
+            const formatTime = (seconds) => {
+                const mins = Math.floor(seconds / 60);
+                const secs = Math.floor(seconds % 60);
+                return `${mins}:${secs.toString().padStart(2, '0')}`;
+            };
+
+            document.getElementById('duration').textContent =
+                `${formatTime(current)} / ${formatTime(total)}`;
+        }
+
+        // Initialize
+        parseText();
+    </script>
+</body>
+</html>
