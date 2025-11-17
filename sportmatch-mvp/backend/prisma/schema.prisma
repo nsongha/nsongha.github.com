@@ -1,0 +1,276 @@
+// This is your Prisma schema file
+// Learn more: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User model
+model User {
+  id        String   @id @default(uuid())
+  phone     String   @unique
+  email     String?  @unique
+  name      String?
+  avatar    String?
+
+  // User preferences
+  homeLocation  Json?  // {lat, lng, address}
+  workLocation  Json?  // {lat, lng, address}
+  sportType     String?  // badminton, football, tennis, etc
+  skillLevel    String?  // beginner, intermediate, advanced, pro
+  hasCoach      Boolean  @default(false)
+  playFrequency String?  // occasional, regular, frequent, daily
+
+  // Habits
+  preferredTime     String?  // morning, afternoon, evening, night
+  preferredDays     String?  // weekday, weekend, any
+  sessionDuration   Int?     // minutes
+
+  // Budget
+  budgetMin         Int?
+  budgetMax         Int?
+  maxDistance       Int?     // km
+
+  priority          String?  // price, distance, quality, amenities
+
+  role              String   @default("user")  // user, admin, venue_owner
+  isActive          Boolean  @default(true)
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  // Relations
+  bookings          Booking[]
+  reviews           Review[]
+  payments          Payment[]
+  venues            Venue[]   // if venue owner
+}
+
+// Venue model
+model Venue {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  address     String
+  location    Json     // {lat, lng}
+  sportType   String   // badminton, football, tennis, etc
+
+  // Contact
+  phone       String
+  email       String?
+  website     String?
+
+  // Technical specs
+  courtWidthType    String?  // narrow, standard, wide
+  surfaceType       String?  // concrete, plastic, wood, artificial_grass
+  surfaceLayers     Int?
+  elasticity        String?  // low, medium, high
+  cleanliness       String?  // dusty, medium, clean
+
+  // Lighting
+  lightingType      String?  // fluorescent, led, halogen
+  lightingLux       Int?
+  hasAntiGlare      Boolean  @default(false)
+  lightingQuality   String?  // poor, adequate, good, excellent
+
+  // Environment
+  noiseLevel        Int?     // dB
+  ventilation       String?  // enclosed, semi_enclosed, open
+  avgTemperature    Int?     // celsius
+
+  // Amenities
+  freeParking       Boolean  @default(false)
+  parkingType       String?  // motorcycle, car, both
+  hasLockerRoom     Boolean  @default(false)
+  lockerRoomQuality Int?     // 1-5
+  hasToilet         Boolean  @default(false)
+  toiletQuality     Int?     // 1-5
+  hasCanteen        Boolean  @default(false)
+  hasFreeWifi       Boolean  @default(false)
+  hasAC             Boolean  @default(false)
+
+  // Equipment
+  standardBallBrand String?  // Yonex, Victor, Lining, etc
+  hasRacketRental   Boolean  @default(false)
+  racketRentalPrice Int?
+  hasDrinkService   Boolean  @default(false)
+
+  // Images
+  images            Json[]   // Array of image URLs
+  video360Url       String?
+
+  // Ratings (calculated from reviews)
+  ratingSurface     Float?
+  ratingLighting    Float?
+  ratingCleanliness Float?
+  ratingAmenities   Float?
+  ratingPrice       Float?
+  ratingService     Float?
+  ratingOverall     Float?
+
+  // Business
+  ownerId           String
+  owner             User     @relation(fields: [ownerId], references: [id])
+  subscriptionTier  String   @default("free")  // free, pro, enterprise
+
+  isActive          Boolean  @default(true)
+  isVerified        Boolean  @default(false)
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  // Relations
+  courts            Court[]
+  bookings          Booking[]
+  reviews           Review[]
+}
+
+// Court model (individual courts within a venue)
+model Court {
+  id          String   @id @default(uuid())
+  venueId     String
+  venue       Venue    @relation(fields: [venueId], references: [id], onDelete: Cascade)
+
+  number      Int      // Court number
+  name        String?  // Court name (optional)
+  sportType   String   // badminton, football, tennis
+
+  // Pricing
+  priceWeekdayMorning   Int?  // 6am-12pm
+  priceWeekdayAfternoon Int?  // 12pm-6pm
+  priceWeekdayEvening   Int?  // 6pm-10pm
+  priceWeekendMorning   Int?
+  priceWeekendAfternoon Int?
+  priceWeekendEvening   Int?
+
+  // Availability
+  operatingHoursStart   String   // e.g., "06:00"
+  operatingHoursEnd     String   // e.g., "23:00"
+
+  isActive              Boolean  @default(true)
+
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  // Relations
+  bookings              Booking[]
+}
+
+// Booking model
+model Booking {
+  id              String   @id @default(uuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id])
+  venueId         String
+  venue           Venue    @relation(fields: [venueId], references: [id])
+  courtId         String
+  court           Court    @relation(fields: [courtId], references: [id])
+
+  bookingDate     DateTime
+  startTime       String   // "18:00"
+  endTime         String   // "19:00"
+  duration        Int      // minutes
+
+  price           Int      // Original price
+  discount        Int      @default(0)
+  finalPrice      Int      // After discount
+
+  status          String   @default("pending")  // pending, confirmed, cancelled, completed, no_show
+  paymentStatus   String   @default("pending")  // pending, paid, refunded, failed
+  paymentMethod   String?  // momo, vnpay, card, cash, wallet
+
+  // Cancellation
+  cancelledAt     DateTime?
+  cancelReason    String?
+  refundAmount    Int?
+
+  // Check-in
+  checkedInAt     DateTime?
+  completedAt     DateTime?
+
+  notes           String?
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relations
+  payment         Payment?
+  review          Review?
+}
+
+// Payment model
+model Payment {
+  id              String   @id @default(uuid())
+  bookingId       String   @unique
+  booking         Booking  @relation(fields: [bookingId], references: [id])
+  userId          String
+  user            User     @relation(fields: [userId], references: [id])
+
+  amount          Int
+  method          String   // momo, vnpay, card, cash, wallet
+  status          String   @default("pending")  // pending, success, failed, refunded
+
+  // Payment gateway data
+  transactionId   String?  @unique  // ID from payment gateway
+  gatewayResponse Json?    // Full response from gateway
+
+  // Refund
+  refundedAt      DateTime?
+  refundAmount    Int?
+  refundReason    String?
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+// Review model
+model Review {
+  id              String   @id @default(uuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id])
+  venueId         String
+  venue           Venue    @relation(fields: [venueId], references: [id])
+  bookingId       String   @unique
+  booking         Booking  @relation(fields: [bookingId], references: [id])
+
+  // Ratings (1-5)
+  ratingSurface       Int
+  ratingLighting      Int
+  ratingCleanliness   Int
+  ratingAmenities     Int
+  ratingPrice         Int
+  ratingService       Int
+  ratingOverall       Int
+
+  comment         String?
+  images          Json[]   // Array of review image URLs
+
+  verified        Boolean  @default(true)  // Only verified bookings can review
+
+  // Moderation
+  isPublished     Boolean  @default(true)
+  moderatedAt     DateTime?
+  moderatedBy     String?
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+// Indexes for performance
+@@index([User.phone])
+@@index([User.email])
+@@index([Venue.ownerId])
+@@index([Venue.sportType])
+@@index([Venue.isActive])
+@@index([Booking.userId])
+@@index([Booking.venueId])
+@@index([Booking.courtId])
+@@index([Booking.bookingDate])
+@@index([Booking.status])
+@@index([Payment.transactionId])
+@@index([Payment.status])
