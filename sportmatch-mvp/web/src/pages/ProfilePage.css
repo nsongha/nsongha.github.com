@@ -1,0 +1,10 @@
+.profile-page {
+  padding: 20px 0;
+  min-height: calc(100vh - 70px);
+}
+
+.profile-page h1 {
+  font-size: 32px;
+  color: #333;
+  margin-bottom: 30px;
+}
