@@ -652,62 +652,196 @@ Tháng 7-12:
 
 ## 5. BUSINESS MODEL
 
-### 5.1. Nguồn thu chính
+### ⚠️ LƯU Ý QUAN TRỌNG VỀ CÁC CON SỐ TRONG ĐỀ XUẤT
+
+**Các con số dưới đây là DỰ ĐOÁN/GIẢ ĐỊNH, chưa được validate bằng data thực tế:**
+
+**Dữ liệu thị trường thực tế đã tìm được:**
+- Alobo (competitor lớn nhất): 1,500+ sân đăng ký
+- Giá sân cầu lông thực tế: 25-65k/giờ (TB ~50k, KHÔNG PHẢI 150k)
+- MyLeague (startup tương tự): Seed funding ~$75K USD
+- Case study: Sân dùng Alobo tăng doanh thu 35% sau 3 tháng
+- **KHÔNG TÌM ĐƯỢC**: Số bookings/ngày thực tế, % commission thị trường, số người dùng active
+
+**⚠️ Các con số bên dưới cần PHẢI validate lại bằng:**
+1. Survey 500+ người dùng thực tế
+2. Phỏng vấn 50+ chủ sân
+3. Phân tích data từ competitors (nếu có thể)
+4. Pilot test với 10-20 sân thử nghiệm
+
+---
+
+### 5.1. MÔ HÌNH DOANH THU (PHIÊN BẢN THỰC TẾ HỢP LÝ HƠN)
+
+#### Kịch bản 1: Conservative (Thận trọng - Khả thi cao)
 ```
+GIẢ ĐỊNH (CẦN VALIDATE):
+- Onboard: 200 sân trong 6 tháng đầu
+- Mỗi sân: 4 bookings/ngày qua app (20% lấp đầy)
+- Giá trung bình: 50,000đ/giờ (dựa trên nghiên cứu thực tế: 25-65k)
+- Commission: 8% (phổ biến với platform model)
+
 1. Hoa hồng từ đặt sân:
-   - 5-10% mỗi giao dịch
-   - Target: 1000 bookings/ngày × 150,000đ × 8% = 12,000,000đ/ngày
-   - Tháng: ~360,000,000đ
+   - 200 sân × 4 bookings/ngày = 800 bookings/ngày
+   - 800 × 50,000đ × 8% = 3,200,000đ/ngày
+   - Tháng: ~96,000,000đ
 
 2. Phí premium cho chủ sân:
-   - Gói Basic: Free
-   - Gói Pro: 2,000,000đ/tháng (hiển thị ưu tiên, thống kê chi tiết)
-   - Gói Enterprise: 5,000,000đ/tháng (API, quản lý nhiều sân)
-   - Target: 100 sân × 2,000,000đ = 200,000,000đ/tháng
+   - Giả định: 10% sân upgrade Pro (20 sân)
+   - Gói Pro: 1,500,000đ/tháng (thấp hơn để dễ bán)
+   - 20 sân × 1,500,000đ = 30,000,000đ/tháng
 
 3. Quảng cáo:
-   - Quảng cáo từ nhà sản xuất vợt, giày, phụ kiện
-   - Banner trong app
-   - Target: ~50,000,000đ/tháng
+   - Giai đoạn đầu: Ít hoặc không có
+   - Target: ~10,000,000đ/tháng (nếu có)
 
 4. Dịch vụ bổ sung:
-   - Bảo hiểm đặt sân: 5,000đ/booking
-   - Target: 500 bookings/ngày = 2,500,000đ/ngày = 75,000,000đ/tháng
+   - Chưa tính (focus vào core business trước)
 
-TỔNG DỰ KIẾN: ~685,000,000đ/tháng (sau 6 tháng)
+TỔNG DỰ KIẾN (Conservative): ~136,000,000đ/tháng (sau 6 tháng)
 ```
 
-### 5.2. Chi phí dự kiến
+#### Kịch bản 2: Optimistic (Lạc quan - Cần nỗ lực lớn)
 ```
-1. Team (10 người):
-   - 2 Developers: 40M + 40M = 80M
-   - 1 Designer: 25M
-   - 1 Product Manager: 35M
-   - 2 Marketing: 20M + 20M = 40M
-   - 2 Sales/BD: 15M + 15M = 30M
-   - 2 Customer Support: 12M + 12M = 24M
-   - 1 QA: 20M
-   Total: 254M/tháng
+GIẢ ĐỊNH (CẦN VALIDATE):
+- Onboard: 500 sân trong 6 tháng
+- Mỗi sân: 6 bookings/ngày qua app (30% lấp đầy)
+- Giá trung bình: 55,000đ/giờ
+- Commission: 8%
+
+1. Hoa hồng từ đặt sân:
+   - 500 sân × 6 bookings/ngày = 3,000 bookings/ngày
+   - 3,000 × 55,000đ × 8% = 13,200,000đ/ngày
+   - Tháng: ~396,000,000đ
+
+2. Phí premium cho chủ sân:
+   - 15% sân upgrade Pro (75 sân)
+   - 75 sân × 1,500,000đ = 112,500,000đ/tháng
+
+3. Quảng cáo:
+   - Target: ~30,000,000đ/tháng
+
+TỔNG DỰ KIẾN (Optimistic): ~538,000,000đ/tháng (sau 6 tháng)
+```
+
+#### Kịch bản 3: PHIÊN BẢN CŨ - KHÔNG THỰC TẾ (Để tham khảo)
+```
+❌ GIẢ ĐỊNH SAI:
+- 1000 bookings/ngày (QUÁ CAO cho startup mới)
+- Giá TB 150,000đ (GẤP 3 LẦN thực tế: 50k)
+- 100 sân Pro × 2M (QUÁ LẠC QUAN)
+
+1. Hoa hồng: 360M/tháng ❌
+2. Premium: 200M/tháng ❌
+3. Ads: 50M/tháng ❌
+4. Khác: 75M/tháng ❌
+
+TỔNG: ~685M/tháng ❌ KHÔNG KHẢ THI
+```
+
+### 5.2. Chi phí dự kiến (PHIÊN BẢN THỰC TẾ)
+
+#### Giai đoạn 1: MVP (Tháng 1-3) - Team nhỏ
+```
+1. Team (5 người):
+   - 2 Developers (Full-stack): 35M + 30M = 65M
+   - 1 Designer/PM (Kiêm nhiệm): 30M
+   - 1 Marketing/Sales (Kiêm nhiệm): 25M
+   - 1 Founder (Ít lương/Equity): 10M
+   Total: 130M/tháng
 
 2. Infrastructure:
-   - Server AWS: ~20M/tháng
-   - CDN, Monitoring: ~5M/tháng
-   - Payment gateway fee: ~5M/tháng
-   Total: 30M/tháng
+   - Server AWS (nhỏ): ~5M/tháng
+   - Tools, SaaS: ~3M/tháng
+   - Payment gateway fee: ~2M/tháng
+   Total: 10M/tháng
 
 3. Marketing:
-   - Facebook Ads: 50M/tháng
-   - Influencer: 30M/tháng
-   - Offline events: 20M/tháng
-   Total: 100M/tháng
-
-4. Khác:
-   - Office: 20M/tháng
-   - Legal, accounting: 10M/tháng
+   - Facebook Ads: 20M/tháng
+   - Partnerships: 10M/tháng
    Total: 30M/tháng
 
-TỔNG CHI PHÍ: ~414M/tháng
-DỰ KIẾN LỢI NHUẬN (sau 6 tháng): ~271M/tháng
+4. Khác:
+   - Coworking space: 5M/tháng
+   - Legal, accounting: 3M/tháng
+   Total: 8M/tháng
+
+TỔNG CHI PHÍ (MVP): ~178M/tháng
+```
+
+#### Giai đoạn 2: Growth (Tháng 4-6) - Scale up
+```
+1. Team (8 người):
+   - 3 Developers: 35M + 30M + 28M = 93M
+   - 1 Designer: 25M
+   - 1 Product Manager: 30M
+   - 1 Marketing: 25M
+   - 1 Sales/BD: 20M
+   - 1 Customer Support: 15M
+   Total: 208M/tháng
+
+2. Infrastructure:
+   - Server AWS: ~10M/tháng
+   - CDN, Monitoring: ~3M/tháng
+   - Payment gateway fee: ~3M/tháng
+   Total: 16M/tháng
+
+3. Marketing:
+   - Facebook Ads: 40M/tháng
+   - Influencer: 20M/tháng
+   - Events: 10M/tháng
+   Total: 70M/tháng
+
+4. Khác:
+   - Office: 10M/tháng
+   - Legal, accounting: 5M/tháng
+   Total: 15M/tháng
+
+TỔNG CHI PHÍ (Growth): ~309M/tháng
+```
+
+### 5.3. Phân tích Lợi nhuận
+
+#### Kịch bản Conservative:
+```
+Doanh thu (tháng 6): 136M
+Chi phí (tháng 6): 309M
+Lỗ: -173M/tháng
+
+⚠️ CẦN FUNDING: Ít nhất 6 tháng × 173M = ~1 tỷ VNĐ
+```
+
+#### Kịch bản Optimistic:
+```
+Doanh thu (tháng 6): 538M
+Chi phí (tháng 6): 309M
+Lợi nhuận: +229M/tháng ✓
+
+✓ Breakeven từ tháng thứ 4-5
+```
+
+#### ❌ Kịch bản cũ (KHÔNG THỰC TẾ):
+```
+Doanh thu: 685M
+Chi phí: 414M
+Lợi nhuận: 271M ❌ QUÁ LẠC QUAN
+```
+
+### 5.4. Funding cần thiết
+
+```
+KHUYẾN NGHỊ:
+
+Seed Round: $200K - $300K (5-7.5 tỷ VNĐ)
+- 3 tháng MVP development: 534M
+- 6 tháng runway (lỗ ~173M/tháng): 1,038M
+- Buffer 20%: 314M
+- Total: ~1,886M = ~$80K USD
+
+⚠️ THỰC TẾ HƠN: Gọi vốn $100K-$150K USD
+- Dựa trên MyLeague funding: $75K
+- Alobo có 1,500 sân → họ đã fund bao nhiêu?
+- Cần research thêm funding landscape
 ```
 
 ---
@@ -965,6 +1099,65 @@ DỰ KIẾN LỢI NHUẬN (sau 6 tháng): ~271M/tháng
 
 ---
 
-**Tài liệu này được tạo: 17/11/2025**
-**Version: 1.0**
-**Người tạo: SportMatch Product Team**
+## ⚠️ DISCLAIMER QUAN TRỌNG
+
+**Về các con số doanh thu và lợi nhuận trong tài liệu này:**
+
+Tài liệu này được tạo ra như một **đề xuất concept/vision** cho ứng dụng đặt sân thể thao. Các con số về doanh thu, lợi nhuận, và tài chính là **ƯỚC TÍNH DỰA TRÊN GIẢ ĐỊNH**, không phải từ dữ liệu thực tế đã được validate.
+
+### Nguồn gốc các con số:
+
+1. **Giá sân thực tế**: Dựa trên nghiên cứu web (25-65k/giờ)
+2. **Số lượng sân, bookings/ngày**: Giả định logic dựa trên competitor (Alobo: 1,500 sân)
+3. **Commission rate**: Giả định phổ biến (8%)
+4. **Chi phí team**: Ước tính dựa trên mức lương thị trường
+
+### ⚠️ TRƯỚC KHI SỬ DỤNG ĐỀ XUẤT NÀY:
+
+**BẮT BUỘC PHẢI VALIDATE:**
+
+1. **Market Research:**
+   - Survey ít nhất 500 người dùng thực tế
+   - Phỏng vấn 50+ chủ sân về willingness to pay
+   - Phân tích competitor data (nếu có thể)
+
+2. **Pilot Test:**
+   - Test với 10-20 sân thực tế trong 1-2 tháng
+   - Đo lường metrics thực tế: conversion rate, booking frequency, churn rate
+   - Validate giá trị commission và subscription
+
+3. **Financial Model:**
+   - Tính toán lại dựa trên data thực từ pilot
+   - Build 3 kịch bản: worst-case, base-case, best-case
+   - Validate với advisor/investor có kinh nghiệm
+
+4. **Competitor Analysis:**
+   - Tìm hiểu funding history của Alobo, MyLeague, Sporta
+   - Benchmark metrics từ các platform tương tự
+   - Hiểu rõ tại sao họ thành công/thất bại
+
+### Mục đích tài liệu:
+
+✓ Brainstorming ideas và features
+✓ Alignment team về vision
+✓ Base để bắt đầu customer discovery
+✓ Framework để validate assumptions
+
+❌ KHÔNG dùng trực tiếp để:
+- Pitch nhà đầu tư (cần data thực)
+- Lập kế hoạch tài chính chính thức
+- Ra quyết định hire/spend lớn
+
+---
+
+**Cập nhật:**
+- **Version 1.0**: 17/11/2025 - Đề xuất ban đầu (con số chưa validate)
+- **Version 1.1**: 17/11/2025 - Thêm disclaimer, cập nhật financial model với con số thực tế hơn dựa trên research
+
+**Người tạo: SportMatch Product Team (Concept/Vision Document)**
+
+**Next Steps:**
+1. Validate assumptions qua customer interviews
+2. Build landing page để test demand
+3. Pilot với 5-10 sân để có data thực
+4. Revise financial model dựa trên data
