@@ -658,7 +658,10 @@ Tháng 7-12:
 
 **Dữ liệu thị trường thực tế đã tìm được:**
 - Alobo (competitor lớn nhất): 1,500+ sân đăng ký
-- Giá sân cầu lông thực tế: 25-65k/giờ (TB ~50k, KHÔNG PHẢI 150k)
+- Giá sân cầu lông thực tế (⚠️ CẬP NHẬT TỪ USER FEEDBACK):
+  * Web research: 25-65k/giờ (có thể là off-peak hoặc sân bóng đá)
+  * **User actual data**: 150-200k/h (giờ vàng), gần 300k/h (cao cấp), < 100k/h (off-peak)
+  * **→ Trung bình hợp lý: 120-150k/giờ cho prime time bookings**
 - MyLeague (startup tương tự): Seed funding ~$75K USD
 - Case study: Sân dùng Alobo tăng doanh thu 35% sau 3 tháng
 - **KHÔNG TÌM ĐƯỢC**: Số bookings/ngày thực tế, % commission thị trường, số người dùng active
@@ -678,17 +681,17 @@ Tháng 7-12:
 GIẢ ĐỊNH (CẦN VALIDATE):
 - Onboard: 200 sân trong 6 tháng đầu
 - Mỗi sân: 4 bookings/ngày qua app (20% lấp đầy)
-- Giá trung bình: 50,000đ/giờ (dựa trên nghiên cứu thực tế: 25-65k)
+- Giá trung bình: 120,000đ/giờ (mix: 70% prime time 150k + 30% off-peak 50k)
 - Commission: 8% (phổ biến với platform model)
 
 1. Hoa hồng từ đặt sân:
    - 200 sân × 4 bookings/ngày = 800 bookings/ngày
-   - 800 × 50,000đ × 8% = 3,200,000đ/ngày
-   - Tháng: ~96,000,000đ
+   - 800 × 120,000đ × 8% = 7,680,000đ/ngày
+   - Tháng: ~230,000,000đ
 
 2. Phí premium cho chủ sân:
    - Giả định: 10% sân upgrade Pro (20 sân)
-   - Gói Pro: 1,500,000đ/tháng (thấp hơn để dễ bán)
+   - Gói Pro: 1,500,000đ/tháng
    - 20 sân × 1,500,000đ = 30,000,000đ/tháng
 
 3. Quảng cáo:
@@ -698,7 +701,7 @@ GIẢ ĐỊNH (CẦN VALIDATE):
 4. Dịch vụ bổ sung:
    - Chưa tính (focus vào core business trước)
 
-TỔNG DỰ KIẾN (Conservative): ~136,000,000đ/tháng (sau 6 tháng)
+TỔNG DỰ KIẾN (Conservative): ~270,000,000đ/tháng (sau 6 tháng)
 ```
 
 #### Kịch bản 2: Optimistic (Lạc quan - Cần nỗ lực lớn)
@@ -706,22 +709,22 @@ TỔNG DỰ KIẾN (Conservative): ~136,000,000đ/tháng (sau 6 tháng)
 GIẢ ĐỊNH (CẦN VALIDATE):
 - Onboard: 500 sân trong 6 tháng
 - Mỗi sân: 6 bookings/ngày qua app (30% lấp đầy)
-- Giá trung bình: 55,000đ/giờ
+- Giá trung bình: 140,000đ/giờ (80% prime time 160k + 20% off-peak 60k)
 - Commission: 8%
 
 1. Hoa hồng từ đặt sân:
    - 500 sân × 6 bookings/ngày = 3,000 bookings/ngày
-   - 3,000 × 55,000đ × 8% = 13,200,000đ/ngày
-   - Tháng: ~396,000,000đ
+   - 3,000 × 140,000đ × 8% = 33,600,000đ/ngày
+   - Tháng: ~1,008,000,000đ
 
 2. Phí premium cho chủ sân:
    - 15% sân upgrade Pro (75 sân)
    - 75 sân × 1,500,000đ = 112,500,000đ/tháng
 
 3. Quảng cáo:
-   - Target: ~30,000,000đ/tháng
+   - Target: ~50,000,000đ/tháng
 
-TỔNG DỰ KIẾN (Optimistic): ~538,000,000đ/tháng (sau 6 tháng)
+TỔNG DỰ KIẾN (Optimistic): ~1,170,000,000đ/tháng (sau 6 tháng)
 ```
 
 #### Kịch bản 3: PHIÊN BẢN CŨ - KHÔNG THỰC TẾ (Để tham khảo)
@@ -804,44 +807,62 @@ TỔNG CHI PHÍ (Growth): ~309M/tháng
 
 #### Kịch bản Conservative:
 ```
-Doanh thu (tháng 6): 136M
+Doanh thu (tháng 6): 270M
 Chi phí (tháng 6): 309M
-Lỗ: -173M/tháng
+Lỗ: -39M/tháng
 
-⚠️ CẦN FUNDING: Ít nhất 6 tháng × 173M = ~1 tỷ VNĐ
+⚠️ CẦN FUNDING: ~500M - 1 tỷ VNĐ cho 6-12 tháng runway
+✓ Gần breakeven, có thể profitable tháng 7-8
 ```
 
 #### Kịch bản Optimistic:
 ```
-Doanh thu (tháng 6): 538M
+Doanh thu (tháng 6): 1,170M
 Chi phí (tháng 6): 309M
-Lợi nhuận: +229M/tháng ✓
+Lợi nhuận: +861M/tháng ✓
 
-✓ Breakeven từ tháng thứ 4-5
+✓ Breakeven từ tháng thứ 3-4
+✓ High growth trajectory
 ```
 
-#### ❌ Kịch bản cũ (KHÔNG THỰC TẾ):
+#### ❌ Kịch bản với giá 50k/giờ (SAI - web research thiếu context):
 ```
-Doanh thu: 685M
-Chi phí: 414M
-Lợi nhuận: 271M ❌ QUÁ LẠC QUAN
+Doanh thu: 136M
+Chi phí: 309M
+Lỗ: -173M ❌ GIẢ ĐỊNH GIÁ SÂN QUẦY THẤP
+
+⚠️ Lỗi: Web research cho giá 25-65k là OFF-PEAK hoặc sân bóng đá,
+không phản ánh giá thực tế người dùng đặt sân cầu lông (150-200k)
 ```
 
 ### 5.4. Funding cần thiết
 
 ```
-KHUYẾN NGHỊ:
+KHUYẾN NGHỊ (CẬP NHẬT VỚI GIÁ THỰC):
 
-Seed Round: $200K - $300K (5-7.5 tỷ VNĐ)
-- 3 tháng MVP development: 534M
-- 6 tháng runway (lỗ ~173M/tháng): 1,038M
-- Buffer 20%: 314M
-- Total: ~1,886M = ~$80K USD
+Kịch bản 1: Bootstrap/Angel (Conservative)
+- Vốn cần: 500M - 1 tỷ VNĐ ($20K - $40K USD)
+- 3 tháng MVP: 178M × 3 = 534M
+- 3 tháng growth với gần breakeven: 309M × 3 - 270M × 3 = 117M
+- Buffer 20%: 130M
+- Total: ~780M ≈ $32K USD
+- Phù hợp: Angel investors, bootstrapping
 
-⚠️ THỰC TẾ HƠN: Gọi vốn $100K-$150K USD
-- Dựa trên MyLeague funding: $75K
-- Alobo có 1,500 sân → họ đã fund bao nhiêu?
-- Cần research thêm funding landscape
+Kịch bản 2: Seed Round (Optimistic)
+- Vốn cần: 2-3 tỷ VNĐ ($80K - $120K USD)
+- 3 tháng MVP: 534M
+- 6 tháng growth aggressive: 1,000M (marketing, team scale)
+- Buffer 20%: 307M
+- Total: ~1,841M ≈ $75K USD
+- Target: Breakeven tháng 3-4, profitable tháng 6
+- Phù hợp: VC seed round
+
+So sánh benchmark:
+- MyLeague: $75K seed → tương đương kịch bản 2
+- Alobo: Unknown (có thể > $200K để đạt 1,500 sân)
+
+⚠️ LƯU Ý: Với giá sân thực 120-150k (không phải 50k),
+startup này khả thi hơn nhiều và có thể breakeven nhanh hơn!
 ```
 
 ---
